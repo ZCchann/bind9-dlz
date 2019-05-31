@@ -6,7 +6,7 @@ ARG BIND_VERSION=9-12-2
 ARG BIND_VERSION_DOT=9.12.2
 
 # install bind9
-RUN yum install -y dos2unix gcc make perl-devel openssl-devel mysql-devel libxml2-devel wget gettext sysvinit-tools  \
+RUN yum install -y gcc make perl-devel openssl-devel mysql-devel libxml2-devel wget gettext sysvinit-tools  \
     && curl -L https://www.isc.org/downloads/file/bind-${BIND_VERSION}/?version=tar-gz -o /tmp/bind.tar.gz \
     && tar -zxvf /tmp/bind.tar.gz -C /tmp \
     && cd /tmp/bind-${BIND_VERSION_DOT} \
@@ -27,7 +27,6 @@ RUN ${BIND_PREFIX}/sbin/rndc-confgen -r /dev/urandom > ${BIND_SYSDIR}/rndc.conf 
     && tail -n 60 ${BIND_SYSDIR}/named.conf.template >> ${BIND_SYSDIR}/named.conf \
     && mkdir /var/log/bind/ && touch /var/log/named.log \
     && chmod 755 /start.sh \
-    && dos2unix /start.sh \
     && yum remove -y gcc make wget \
     && yum clean all
 
